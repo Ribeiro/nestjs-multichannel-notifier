@@ -26,7 +26,7 @@ export class NotificationService {
   ): Promise<void> {
     const promises = channels.map((channel) => {
       const strategy = this.strategies[channel];
-      if (!strategy) throw new Error(`Canal de notificação não suportado: ${channel}`);
+      if (!strategy) throw new Error(`Unsupported Notification Channel: ${channel}`);
       return strategy.send(payload);
     });
 
