@@ -1,0 +1,9 @@
+# Ignore everything...
+*
+
+# ...except the built files
+!dist
+!dist/**
+!package.json
+!README.md
+!LICENSE
