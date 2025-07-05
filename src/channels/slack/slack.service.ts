@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { NotificationStrategy } from '../interfaces/notification-strategy.interface';
-import { NotificationPayload } from '../interfaces/notification.interface';
-import { NotificationStatus } from '../interfaces/notification-status.enum';
+import { NotificationStrategy } from '../../interfaces/notification-strategy.interface';
+import { NotificationPayload } from '../../interfaces/notification.interface';
+import { NotificationStatus } from '../../commons/enums/notification-status.enum';
 import axios from 'axios';
 
 @Injectable()

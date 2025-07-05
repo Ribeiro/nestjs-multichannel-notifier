@@ -1,10 +1,10 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { NotificationStrategy } from '../interfaces/notification-strategy.interface';
-import { NotificationPayload } from '../interfaces/notification.interface';
+import { NotificationStrategy } from '../../interfaces/notification-strategy.interface';
+import { NotificationPayload } from '../../interfaces/notification.interface';
 import * as sgMail from '@sendgrid/mail';
 
 @Injectable()
-export class EmailService implements NotificationStrategy {
+export class EmailSengridService implements NotificationStrategy {
   private readonly fromEmail: string;
 
   constructor(
@@ -26,7 +26,7 @@ export class EmailService implements NotificationStrategy {
 
     this.logger.debug(
       `[traceId=${traceId}] Preparing SendGrid email to ${payload.to} with subject "${payload.subject}"`,
-      EmailService.name,
+      EmailSengridService.name,
     );
 
     const msg = {
@@ -41,14 +41,14 @@ export class EmailService implements NotificationStrategy {
       await sgMail.send(msg);
       this.logger.log(
         `[traceId=${traceId}] Email successfully sent to ${payload.to}`,
-        EmailService.name,
+        EmailSengridService.name,
       );
     } catch (error: any) {
       const message = error?.response?.body ?? error.message;
       this.logger.error(
         `[traceId=${traceId}] Failed to send email to ${payload.to}: ${JSON.stringify(message)}`,
         error.stack,
-        EmailService.name,
+        EmailSengridService.name,
       );
       throw new Error(`SendGrid email failed: ${error.message}`);
     }

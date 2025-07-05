@@ -1,10 +1,10 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { NotificationStrategy } from '../interfaces/notification-strategy.interface';
-import { NotificationPayload } from '../interfaces/notification.interface';
+import { NotificationStrategy } from '../../interfaces/notification-strategy.interface';
+import { NotificationPayload } from '../../interfaces/notification.interface';
 import { JWT } from 'google-auth-library';
 
 @Injectable()
-export class PushService implements NotificationStrategy {
+export class PushFirebaseService implements NotificationStrategy {
   private readonly projectId = process.env.FIREBASE_PROJECT_ID;
   private readonly clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   private readonly privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
@@ -29,7 +29,7 @@ export class PushService implements NotificationStrategy {
 
     this.logger.debug(
       `[traceId=${traceId}] Preparing push notification for recipient ${payload.to} with title "${payload.subject}"`,
-      PushService.name,
+      PushFirebaseService.name,
     );
 
     await this.jwtClient.authorize();
@@ -48,7 +48,7 @@ export class PushService implements NotificationStrategy {
 
     this.logger.debug(
       `[traceId=${traceId}] Sending request to FCM: ${JSON.stringify(message)}`,
-      PushService.name,
+      PushFirebaseService.name,
     );
 
     const response = await this.jwtClient.request({
@@ -61,14 +61,14 @@ export class PushService implements NotificationStrategy {
       this.logger.error(
         `[traceId=${traceId}] Failed to send push notification to ${payload.to}: ${response.status} - ${JSON.stringify(response.data)}`,
         response.data,
-        PushService.name,
+        PushFirebaseService.name,
       );
       throw new Error(`Push notification failed: ${response.status}`);
     }
 
     this.logger.log(
       `[traceId=${traceId}] Push notification sent successfully to ${payload.to}`,
-      PushService.name,
+      PushFirebaseService.name,
     );
   }
 }

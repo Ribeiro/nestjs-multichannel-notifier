@@ -1,5 +1,5 @@
-import { NotificationStatus } from './notification-status.enum';
-import { NotificationChannel } from './notification-channel.enum';
+import { NotificationStatus } from '../commons/enums/notification-status.enum';
+import { NotificationChannel } from '../commons/enums/notification-channel.enum';
 
 export interface NotificationPayload {
   to: string;

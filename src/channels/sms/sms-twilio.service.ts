@@ -1,10 +1,10 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { NotificationStrategy } from '../interfaces/notification-strategy.interface';
-import { NotificationPayload } from '../interfaces/notification.interface';
+import { NotificationStrategy } from '../../interfaces/notification-strategy.interface';
+import { NotificationPayload } from '../../interfaces/notification.interface';
 import { Twilio } from 'twilio';
 
 @Injectable()
-export class SmsService implements NotificationStrategy {
+export class SmsTwilioService implements NotificationStrategy {
   private readonly twilioClient: Twilio;
   private readonly fromPhone: string;
 
@@ -28,7 +28,7 @@ export class SmsService implements NotificationStrategy {
 
     this.logger.debug(
       `[traceId=${traceId}] Preparing SMS notification to ${payload.to}`,
-      SmsService.name,
+      SmsTwilioService.name,
     );
 
     try {
@@ -40,13 +40,13 @@ export class SmsService implements NotificationStrategy {
 
       this.logger.log(
         `[traceId=${traceId}] SMS sent to ${payload.to} | SID: ${message.sid}`,
-        SmsService.name,
+        SmsTwilioService.name,
       );
     } catch (error: any) {
       this.logger.error(
         `[traceId=${traceId}] Failed to send SMS to ${payload.to}: ${error.message}`,
         error.stack,
-        SmsService.name,
+        SmsTwilioService.name,
       );
       throw new Error(`SMS delivery failed: ${error.message}`);
     }
